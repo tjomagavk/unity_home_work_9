@@ -1,16 +1,25 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Prefabs
 {
     public class UnitLeg : MonoBehaviour
     {
         private float _currentX;
+        private Vector3 _startPosition;
+        private Quaternion _startRotation;
         private bool _positive;
         private bool _play = true;
 
         private int _speed = 200;
 
-        void Update()
+        private void Start()
+        {
+            _startRotation = transform.localRotation;
+            _startPosition = transform.localPosition;
+        }
+
+        void FixedUpdate()
         {
             if (_play)
             {
@@ -20,7 +29,7 @@ namespace Prefabs
 
         public void StartAnimation(bool positive, int speed)
         {
-            _speed = speed * 100;
+            _speed = speed * 50;
             _currentX = 0;
             _positive = positive;
             _play = true;
@@ -30,7 +39,8 @@ namespace Prefabs
         {
             _play = false;
             _currentX = 0;
-            Rotate(_currentX);
+            transform.localRotation = _startRotation;
+            transform.localPosition = _startPosition;
         }
 
 
@@ -40,19 +50,18 @@ namespace Prefabs
             {
                 _positive = false;
             }
-
-            if (_currentX <= -45)
+            else if (_currentX <= -45)
             {
                 _positive = true;
             }
 
             if (_positive)
             {
-                _currentX += Time.deltaTime * _speed;
+                _currentX += Time.fixedDeltaTime * _speed;
             }
             else
             {
-                _currentX -= Time.deltaTime * _speed;
+                _currentX -= Time.fixedDeltaTime * _speed;
             }
 
             Rotate(_currentX);
@@ -60,7 +69,7 @@ namespace Prefabs
 
         private void Rotate(float x)
         {
-            Vector3 vector3 = new Vector3(x, 0, 0);
+            Vector3 vector3 = new Vector3(x, 0, _startRotation.z * 100);
             transform.localRotation = Quaternion.Euler(vector3);
         }
     }

@@ -21,9 +21,9 @@ public class RelayRace : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (units[_runUnit].transform.position == NextUnit(_runUnit).transform.position)
+        if (Vector3.Distance(units[_runUnit].transform.position, NextUnit(_runUnit).transform.position) <= 0.1)
         {
             NextRun();
         }

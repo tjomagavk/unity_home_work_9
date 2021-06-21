@@ -1,4 +1,5 @@
-﻿using Prefabs;
+﻿using System;
+using Prefabs;
 using UnityEngine;
 
 public class UnitScript : MonoBehaviour
@@ -11,15 +12,29 @@ public class UnitScript : MonoBehaviour
     private bool _leftLegPositive;
     private const float BodyRunPosition = .1f;
     private Transform _target;
+    private Vector3 _startPosition;
     public int speed;
     private bool _run;
 
-    void Update()
+    private void Start()
+    {
+        _startPosition = transform.position;
+    }
+
+    void FixedUpdate()
     {
         transform.LookAt(_target);
+
         if (_run)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime * speed);
+            transform.position = Vector3.MoveTowards(transform.position, _target.position, Time.fixedDeltaTime * speed);
+        }
+
+        if (Math.Abs(transform.position.x) > 50
+            || Math.Abs(transform.position.z) > 50 ||
+            Math.Abs(transform.position.y) > 50)
+        {
+            transform.position = _startPosition;
         }
     }
 
@@ -42,7 +57,7 @@ public class UnitScript : MonoBehaviour
     public void SetStick(Transform stick)
     {
         stick.parent = rightHand.transform;
-        stick.localPosition = new Vector3(0, stick.localPosition.y, 0);
+        stick.localPosition = new Vector3(0, -1.3f, 0);
     }
 
     public void Stop()

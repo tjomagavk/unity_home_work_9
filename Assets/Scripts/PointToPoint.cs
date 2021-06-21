@@ -18,7 +18,7 @@ public class PointToPoint : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (unit.transform.position == NextPoint(_runUnit).transform.position)
         {
