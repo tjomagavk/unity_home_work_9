@@ -7,14 +7,11 @@ public class SupermanScript : MonoBehaviour
 {
     [SerializeField] private Transform[] points;
     private bool _leftLegPositive;
-    private const float BodyRunPosition = .1f;
     private int _target;
     public int speed;
-    private int _layer;
 
     void Start()
     {
-        _layer = LayerMask.NameToLayer("BadGuy");
         NextTarget();
     }
 
@@ -50,7 +47,7 @@ public class SupermanScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == _layer)
+        if (other.gameObject.layer == LayersManager.GetBadGuy())
         {
             other.GetComponent<Rigidbody>().AddForce(other.transform.position.normalized * 15, ForceMode.Impulse);
         }
