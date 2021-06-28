@@ -53,13 +53,6 @@ public class PointToPoint : MonoBehaviour
             _reverse = false;
         }
 
-        if (_reverse)
-        {
-            return currentUnit - 1;
-        }
-        else
-        {
-            return currentUnit + 1;
-        }
+        return _reverse ? currentUnit - 1 : currentUnit + 1;
     }
 }

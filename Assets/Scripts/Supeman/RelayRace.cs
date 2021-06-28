@@ -60,13 +60,6 @@ public class RelayRace : MonoBehaviour
 
     private int NextArrayNumber(int currentUnit)
     {
-        if (currentUnit != units.Length - 1)
-        {
-            return currentUnit + 1;
-        }
-        else
-        {
-            return 0;
-        }
+        return currentUnit != units.Length - 1 ? currentUnit + 1 : 0;
     }
 }
